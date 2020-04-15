@@ -1,3 +1,4 @@
+// bunaaaa
 function loadLoginPage(){
     $(function(){
         $("#login").load("./html/login.html");
