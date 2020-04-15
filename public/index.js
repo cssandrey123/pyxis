@@ -1,3 +1,9 @@
+function loadLoginPage(){
+    $(function(){
+        $("#login").load("./html/login.html");
+    });
+}
+
 window.onresize = function(){
     let nav = document.getElementById("navbar");
     if(window.innerWidth<992){
