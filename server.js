@@ -1,44 +1,29 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser')
 const path = require('path');
-const puppeteer = require('puppeteer');
-
+const ppteer = require('./public/backend-js/puppeteer-post.js');
 
 app.use(express.static(path.join(__dirname,'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-
-      
-app.post('/',(req,res) => {
-  // replace code here
-
-  puppeteer.launch().then(async function(browser) {
-    const page = await browser.newPage();
-    await page.goto('http://digidb.io/digimon-list/');
-    
-    // Targeting the DOM Nodes that contain the Digimon names
-    const digimonNames = await page.$$eval('#digiList tbody tr td:nth-child(2) a', function(digimons) {
-      // Mapping each Digimon name to an array
-        return digimons.map(function(digimon) {
-          return digimon.innerText;
-    });
+     
+app.post('/html/post.html',async (req,res) => {
+  // Console log the req body
+  req.on('data', reqBody => {
+    /**
+     * If you want to use reqBody, you need to parse it from json to javascript object with JSON.parse(reqBody)
+     * Ex: // console.log(JSON.parse(reqBody).websites);
+     */
+    console.log(`Data recive in body: ${reqBody}`)
   });
-  
-    // Transform the array into a string, then to an object and stringify it
-    let dnString = digimonNames.join(",");
-    let resu = JSON.stringify({names:dnString});
-    // Retrun the POST result
-    res.end(resu);
-
-    // Closing the Puppeteer controlled headless browser
-    await browser.close();        
-  });
-
-
-  // replace code here
-  let test = JSON.stringify({name:"asd"});
+  // Calling puppeteer to do the work, it's imported in line 5 from a local file
+  const ppteerResponse = await ppteer();
+  console.log(`Data sent:\n ${ppteerResponse}`);
+  // Send response to frontend
+  res.end(ppteerResponse);
 });
-// app.get('/',(req,res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-//     res.send('Worked fuck it');
-// });
