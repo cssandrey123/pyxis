@@ -1,4 +1,3 @@
-// asdasdasf
 let puppeteerPost = async function() {
     const puppeteer = require('puppeteer');
     return new Promise((resolve,reject)=>{
