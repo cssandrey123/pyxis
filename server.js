@@ -20,6 +20,7 @@ app.post('/html/post.html',async (req,res) => {
      * Ex: // console.log(JSON.parse(reqBody).websites);
      */
     console.log(`Data recive in body: ${reqBody}`)
+    
   });
   // Calling puppeteer to do the work, it's imported in line 5 from a local file
   const ppteerResponse = await ppteer();

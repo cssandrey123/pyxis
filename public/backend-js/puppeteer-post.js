@@ -23,5 +23,15 @@ let puppeteerPost = async function() {
     });
     });
 }
+let olxbla = async function(){
+  const puppeteer = require('puppeteer');
+  return new Promise((resolve,reject) => {
+    puppeteer.launch().then(async function(browser){
+      console.log();
+
+      resolve("")
+    });
+  });
+}
 
 module.exports = puppeteerPost;
