@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt'); //so we can hash the passsword
 function User() {};
 
 /*
-User.prototype = {
+User.prototype = { //prototype = allows to add new methods and properties to objects constructors
+
     //Find user data by id or username
     find: function(user = null, callback)
     {
@@ -15,7 +16,7 @@ User.prototype = {
 
         let sql = 'SELECT * FROM users WHERE ${field} = ?';
 
-        conn.query(sql, user, function(err, result){
+        pool.query(sql, user, function(err, result){
             if(err) throw err //if(result.length) callback(result[0]);
             callback(result);
         });
@@ -35,7 +36,7 @@ User.prototype = {
 
         let sql = 'INSERT INTO users(username,fullname,password) VALUES (?,?,?)';
 
-        conn.query(sql, bind,function(err, lastId){
+        pool.query(sql, bind, function(err, lastId){
             if(err) throw err
             callback(lastId);
         });
