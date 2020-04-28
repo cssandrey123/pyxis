@@ -1,8 +1,10 @@
 const express = require('express');
 const User = require('./database/user');
-const router = express.Router;
+const router = express.Router() ;
 
 const user = new User();
+
+
 
 // POST login data
 //if the user submit login form
@@ -38,6 +40,9 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+router.get('/register/1', (req, res, next) => {
+    console.log('test');
+});
 
 
 module.exports = router;

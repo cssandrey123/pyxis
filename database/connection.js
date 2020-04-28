@@ -1,8 +1,9 @@
+const util = require('util');
 const mysql = require('mysql');
 
 //cratePool = reduce the number of times connections must be opened and closed
 const pool = mysql.createPool({
-  connectionLimit = 10, //the maximum permitted number of simultaneous client connections in MySQL
+  connectionLimit: 10, 
   host: 'localhost',
   user: 'root',
   password: 'denisa0',

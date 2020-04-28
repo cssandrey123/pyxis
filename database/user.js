@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt'); //so we can hash the passsword
 
 function User() {};
 
-/*
+
 User.prototype = { //prototype = allows to add new methods and properties to objects constructors
 
     //Find user data by id or username
@@ -29,7 +29,7 @@ User.prototype = { //prototype = allows to add new methods and properties to obj
         body.password = bcrypt.hashSync(pwd, 10);
 
         var bind = [];
-
+      
         for(prop in body){
             bind.push(prop);
         }
@@ -58,4 +58,4 @@ User.prototype = { //prototype = allows to add new methods and properties to obj
 }
 
 module.exports = User;
-*/
+

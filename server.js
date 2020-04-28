@@ -1,13 +1,18 @@
 const express = require('express');
-const app = express();
+const app = express();  
 const bodyParser = require('body-parser')
 const path = require('path');
 const ppteer = require('./public/backend-js/puppeteer-post.js');
+
+const pageRouter = require('./pages');
 
 app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
+
+//routers
+app.use('/',pageRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
