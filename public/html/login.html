@@ -7,10 +7,14 @@
 <div class="login-wrapper">
     <div class="login-contact-form">
       <div class="login-input-fields">
-        <input type="text" class="login-input" placeholder="Username">
-        <input type="text" class="login-input" placeholder="Password">
-        <div class="divider"></div>
-        <div class="login-btn">login</div>
+        <form id="login-form">
+          <input id="username" type="text" class="login-input" placeholder="Username">
+          <input id="password" type="text" class="login-input" placeholder="Password">
+          <div class="divider"></div>
+          <div class="login-btn" onclick="loginRequest()">login</div>
+        </form>
       </div>
     </div>
 </div>	
+
+<!-- <script src="../frontend-js/post.js"></script> -->
