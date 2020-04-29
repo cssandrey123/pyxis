@@ -7,7 +7,7 @@ const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: 'denisa0',
-  database: 'my_new_schema'
+  database: 'nodelogin'
 });
 
 pool.getConnection((err,connection) => {

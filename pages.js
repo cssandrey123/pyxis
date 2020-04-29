@@ -19,16 +19,25 @@ router.post('/login', (req, res, next) => {
          * If you want to use reqBody, you need to parse it from json to javascript object with JSON.parse(reqBody)
          * Ex: // console.log(JSON.parse(reqBody).username);
          */
-        console.log(`Data recive in body: ${reqBody}`)  
+        console.log(`Data receive in body: ${reqBody}`)  
         console.log("Username: "+JSON.parse(reqBody).username);
+        user.login(JSON.parse(reqBody).username, JSON.parse(reqBody).password, function(result) {
+            if(result) {
+                console.log('login' + result);
+
+                res.send(result);
+            }else {
+                res.send('Username/Password incorrect!');
+            }
+        });
       });
-    user.login(req.body.username, req.body.password, function(result) {
+    /*user.login(req.body.username, req.body.password, function(result) {
         if(result) {
             res.send('Logged in as : ' + result.username);
         }else {
             res.send('Username/Password incorrect!');
         }
-    });
+    });*/
 
 });
 

@@ -1,4 +1,4 @@
-const conn = require('./connection');
+const pool = require('./connection');
 const bcrypt = require('bcrypt'); //so we can hash the passsword
 
 function User() {};
@@ -9,16 +9,26 @@ User.prototype = { //prototype = allows to add new methods and properties to obj
     //Find user data by id or username
     find: function(user = null, callback)
     {
-        
+        var field;
+        console.log('user is ' + user );
         if(user){
-            var field = Number.isInteger(user) ? 'id' : 'username';
+             field = Number.isInteger(user) ? 'id' : 'username';
         }
 
-        let sql = 'SELECT * FROM users WHERE ${field} = ?';
+        console.log(field);
+        let sql = 'select * from users where username = ? ';
 
         pool.query(sql, user, function(err, result){
-            if(err) throw err //if(result.length) callback(result[0]);
-            callback(result);
+            //if(err) throw err 
+            if (err) throw err;
+            console.log(result);
+            console.log(result[0]);
+            
+            //console.log(result);
+           // if(result.length)
+                // callback(result[0]);
+            
+            callback(result[0]);
         });
     },
 
@@ -44,10 +54,14 @@ User.prototype = { //prototype = allows to add new methods and properties to obj
     },
 
     login: function(username, password, callback)
-    {
+    { 
+        console.log('it s in login funtion');
         this.find(username, function(user) {
             if(user) {
-                if(bcrypt.compareSync(password, user.password)) {
+                console.log('found user');
+                //if(bcrypt.compareSync(password, user.password))
+                if(password === user.password) {
+                    console.log('compared');
                     callback(user);
                     return;
                 }

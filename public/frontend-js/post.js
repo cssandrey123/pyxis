@@ -31,7 +31,7 @@ function loginRequest() {
     });
 
     httpRequest.then(response => {
-        console.log("Recived message from backend: "+response);
+        console.log("Received message from backend: " + JSON.stringify(response));
     })
 
 }

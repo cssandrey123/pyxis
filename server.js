@@ -14,7 +14,7 @@ app.use(bodyParser.raw());
 //routers
 app.use('/',pageRouter);
 
-const PORT = process.env.PORT || 5000;
+const PORT = /*process.env.PORT ||*/ 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
      
 app.post('/html/post.html',async (req,res) => {
@@ -24,7 +24,7 @@ app.post('/html/post.html',async (req,res) => {
      * If you want to use reqBody, you need to parse it from json to javascript object with JSON.parse(reqBody)
      * Ex: // console.log(JSON.parse(reqBody).websites);
      */
-    console.log(`Data recive in body: ${reqBody}`)
+    console.log(`Data receive in body: ${reqBody}`)
     
   });
   // Calling puppeteer to do the work, it's imported in line 5 from a local file
