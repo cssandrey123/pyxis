@@ -1,4 +1,4 @@
-// bunaaaa
+
 document.getElementById("Login").addEventListener("click",loadLoginPage);
 function removeElemFromDom(elem){
     let parentWrapper = document.getElementById("login")
@@ -10,7 +10,16 @@ function loadLoginPage(){
     });
     console.log("clicked");
 }
-
+window.onload = function() {
+    let nav = document.getElementById("navbar");
+    let navLogo = document.getElementById("nav-logo");
+    if(window.innerWidth<992){
+        console.log("woked")
+        nav.classList.remove("navbar-transparent");
+        nav.classList.add("navbar-light","bg-light");
+        navLogo.classList.add("logo-black");
+    }
+}
 window.onresize = function(){
     let nav = document.getElementById("navbar");
     let navLogo = document.getElementById("nav-logo");
