@@ -12,6 +12,29 @@ function makePostRequest(){
     });
     return httpRequest;
 }
+function loginRequest() {
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+
+    const httpRequest = new Promise((resolve,reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST','/login');
+        xhr.responseType = 'json';
+        xhr.onload = () => {
+            resolve(xhr.response);
+        };   
+        xhr.send(JSON.stringify({
+            username,
+            password
+        }));
+        // xhr.send({website:"test"});
+    });
+
+    httpRequest.then(response => {
+        console.log("Received message from backend: " + JSON.stringify(response));
+    })
+
+}
 // function createNodeElem(names){
 //     let contDiv = document.createElement('div');
 //     contDiv.className = "container";

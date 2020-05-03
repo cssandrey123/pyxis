@@ -13,23 +13,29 @@ function loadLoginPage(){
 
 window.onresize = function(){
     let nav = document.getElementById("navbar");
+    let navLogo = document.getElementById("nav-logo");
     if(window.innerWidth<992){
         nav.classList.remove("navbar-transparent");
         nav.classList.add("navbar-light","bg-light");
+        navLogo.classList.add("logo-black");
     }
     else if(window.pageYOffset==0){
         nav.classList.remove("navbar-light","bg-light");
         nav.classList.add("navbar-transparent");
+        navLogo.classList.remove("logo-black");
     }
 }
 window.onscroll = function(){
     let nav = document.getElementById("navbar");
+    let navLogo = document.getElementById("nav-logo");
     if (window.pageYOffset>0 && window.innerWidth>=992) {
         nav.classList.remove("navbar-transparent");
         nav.classList.add("navbar-light","bg-light");
+        navLogo.classList.add("logo-black");
     } else if(window.innerWidth>=992){
         nav.classList.remove("navbar-light","bg-light");
         nav.classList.add("navbar-transparent");
+        navLogo.classList.remove("logo-black");
     }
 }
 
