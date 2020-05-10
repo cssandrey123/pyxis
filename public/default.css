@@ -4,13 +4,19 @@ body {
     /* overflow: hidden; */
 }
 
-
-.wrapper-about {
-    width: 100%;
-    height: 100vh;
-    background: url('img/main_background.jpg') center center no-repeat;
-    background-size: cover;
+.center-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow:column;
 }
+.box-shadow {
+    background: #FFF;
+    border: 1px solid #EDEEEE;
+    border-radius: 2px;
+    box-shadow: 0 5px 10px 0 rgba(79,93,91,.1);
+}
+
 /* Nav START */
 nav {
     z-index: 100;
@@ -123,6 +129,46 @@ nav li {
 
 /* Home END */
 
+/* About START */
+
+.wrapper-about {
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    background-size: cover;
+}
+.wrapper-about i{
+    color:#055980;
+}
+
+.avatar-image {
+    border: 1px solid #055980;
+    border-radius: 50%;
+}
+
+.about-left {
+    padding-top: 55px;
+    display: none;
+}
+.about-right {
+    flex:10;
+}
+.large-box {
+    text-align: center;
+    width: 80%;
+    padding: 20px;
+    margin-top: 20px;
+}
+.wrapper-about hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color:#055980;
+}
+.wrapper-about p {
+    font-size: 1.1rem;
+}
+
+/* About END */
 
 
  
@@ -156,8 +202,20 @@ nav li {
     .wrapper-home {
         padding-top:68px;
     }
+    .about-left {
+        display: block;
+    }
     
 }
 
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {  }
+
+@media (max-width: 576px) {
+    h1{
+        font-size: 1.7rem;
+    }
+    h2 {
+        font-size: 1.4rem;
+    }
+}
