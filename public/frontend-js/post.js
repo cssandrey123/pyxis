@@ -19,7 +19,7 @@ function loginRequest() {
     const httpRequest = new Promise((resolve,reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST','/login');
-        xhr.responseType = 'json';
+        xhr.responseType = 'text';
         xhr.onload = () => {
             resolve(xhr.response);
         };   
@@ -30,7 +30,8 @@ function loginRequest() {
     });
 
     httpRequest.then(response => {
-        console.log("Received message from backend: " + JSON.stringify(response));
+        
+        console.log("Received message from backend: " + response);//JSON.stringify(response));
     })
 }
 
@@ -43,7 +44,7 @@ function registerRequest(){
     const httpRequest = new Promise((resolve,reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST','/register');
-        xhr.responseType = 'json';
+        xhr.responseType = 'text';
         xhr.onload = () => {
             resolve(xhr.response);
         };   
@@ -56,7 +57,8 @@ function registerRequest(){
     });
 
     httpRequest.then(response => {
-        console.log("Received message from backend: " + JSON.stringify(response));
+        
+        console.log("Received message from backend: " + response); //JSON.stringify(response));
     })
 }
 
