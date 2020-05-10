@@ -23,11 +23,9 @@ router.post('/login', (req, res, next) => {
         console.log("Username: "+JSON.parse(reqBody).username);
         user.login(JSON.parse(reqBody).username, JSON.parse(reqBody).password, function(result) {
             if(result) {
-                console.log('login' + result);
-
-                res.send(result);
+                 res.send('Logged as ' + result.username);
             }else {
-                res.send('Username/Password incorrect!');
+                res.send('false');
             }
         });
       });
@@ -43,21 +41,26 @@ router.post('/login', (req, res, next) => {
 
 //POST register data
 router.post('/register', (req, res, next) => {
-    //res.json(req.body);
+    req.on('data', reqBody => {
+        console.log(`Data receive in body: ${reqBody}`);
+        
+        let userInput = {
+            username: JSON.parse(reqBody).username,
+            fullname: JSON.parse(reqBody).fullname,
+            password: JSON.parse(reqBody).password,
+            email: JSON.parse(reqBody).email
+        };
+    
+        user.create(userInput, function(lastId) {
+            if(lastId) {
+                res.send('Welcome ' + userInput.username);
+            }else {
+                console.log('Error creating a new account...');
+            }
+        });
+           
+    })
 
-    let userInput = {
-        username: req.body.username,
-        fullname: req.body.fullname,
-        password: req.body.password
-    };
-
-    user.create(userInput, function(lastId) {
-        if(lastId) {
-            res.send('Welcome '+ userInput.username);
-        }else {
-            console.log('Error creating a new account...');
-        }
-    });
 });
 
 router.get('/register/1', (req, res, next) => {

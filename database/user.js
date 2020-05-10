@@ -21,12 +21,8 @@ User.prototype = { //prototype = allows to add new methods and properties to obj
         pool.query(sql, user, function(err, result){
             //if(err) throw err 
             if (err) throw err;
-            console.log(result);
-            console.log(result[0]);
-            
             //console.log(result);
-           // if(result.length)
-                // callback(result[0]);
+            //console.log(result[0]);
             
             callback(result[0]);
         });
@@ -41,13 +37,15 @@ User.prototype = { //prototype = allows to add new methods and properties to obj
         var bind = [];
       
         for(prop in body){
-            bind.push(prop);
+            bind.push(body[prop]);
         }
-
-        let sql = 'INSERT INTO users(username,fullname,password) VALUES (?,?,?)';
+        console.log(bind);
+         let sql = 'INSERT INTO users(username,fullname,password,email) VALUES (?,?,?,?)';
 
         pool.query(sql, bind, function(err, lastId){
             if(err) throw err
+            console.log(lastId);
+            
             callback(lastId);
         });
 
@@ -59,12 +57,17 @@ User.prototype = { //prototype = allows to add new methods and properties to obj
         this.find(username, function(user) {
             if(user) {
                 console.log('found user');
-                //if(bcrypt.compareSync(password, user.password))
-                if(password === user.password) {
+                if(bcrypt.compareSync(password, user.password)) {
+                    console.log(user);
+                    callback(user);
+                    return;
+
+                }
+                /*if(password === user.password) {
                     console.log('compared');
                     callback(user);
                     return;
-                }
+                }*/
             }
             callback(null);
         });

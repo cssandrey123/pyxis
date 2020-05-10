@@ -12,6 +12,10 @@
 .bg-light {
     transition: 1s;
 }
+.btn-primary {
+    background-color: #055980;
+    border-color:#055980
+}
 /* navbar END */
 
 
@@ -36,9 +40,6 @@
         padding-top: 0!important;
         padding-bottom: 0!important;
         /* padding-left: 0!important; */
-    }
-    .navbar-brand {
-        /* padding: 0; */
     }
     
     

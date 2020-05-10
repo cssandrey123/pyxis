@@ -7,6 +7,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9d345748fe.js" crossorigin="anonymous"></script>
+ 
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.custome.css">
     <link rel="stylesheet" type="text/css" href="./css/animation.css">
@@ -36,7 +38,7 @@
                   <a class="nav-link" href="html/post.html">Posteaza</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="#">Despre noi</a>
                   </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">What we do</a>
@@ -44,10 +46,10 @@
               </ul>
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" id="Login">Login</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#loginModal" id="Login">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Register</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#registerModal">Register</a>
                 </li>
                </ul>
             </div>
@@ -55,8 +57,85 @@
           <!-- Navbar END -->
           
           <!-- Login START -->
-            <div id="login"></div>
+            <!-- <div id="login"></div> -->
+
+            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="logUsername">Username</label>
+                        <input type="email" class="form-control" id="logUsername" aria-describedby="emailHelp">
+                      </div>
+                      <div class="form-group">
+                        <label for="logPassword">Password</label>
+                        <input type="password" class="form-control" id="logPassword">
+                      </div>
+                      <div style="display: none;" id="login-succes-allert" class="alert alert-success" role="alert">
+                        Te-ai logat cu succes!
+                      </div>
+                      <div style="display: none;" id="login-incorect-allert" class="alert alert-danger" role="alert">
+                        Nume de utilizator sau parola gresita!
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="loginRequest()">Login</button>
+                  </div>
+                </div>
+              </div>
+            </div>            
           <!-- Login END -->
+
+          <!-- Register START -->
+          <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="regUsername">Username</label>
+                      <input type="email" class="form-control" id="regUsername" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                      <label for="regPassword">Password</label>
+                      <input type="password" class="form-control" id="regPassword">
+                    </div>
+                    <div class="form-group">
+                      <label for="regEmail">Adresa de e-mail</label>
+                      <input type="email" class="form-control" id="regEmail" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                      <label for="regName">Nume si prenume</label>
+                      <input type="email" class="form-control" id="regName" aria-describedby="emailHelp">
+                    </div>
+                    <div style="display: none;" id="register-succes-allert" class="alert alert-success" role="alert">
+                      Te-ai inregistrat cu succes!
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" onclick="registerRequest()">Register</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Register END -->
 
         <!-- Home START -->
         <div class="wrapper-home">
@@ -110,9 +189,79 @@
             </div>
         </div>
         <!-- Home END -->
-        <div class="wrapper-about">
-            <h1>Test</h1>
+
+        <!-- About START -->
+
+        <div class="wrapper-about p-3">  
+          <div style="height: 100%;" class="container-fluid d-flex">
+            <div class="about-left">
+              <img src="./img/boy_avatar_2.png" alt="User" class="">
+            </div>
+            <div class="about-right">
+              <div class="center-flex">
+                <div class="text-center box-shadow m-3 p-3">
+                  <h1 class="text-center">Cine suntem noi?</h1>
+                  <p>
+                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                    Pe scurt,o echipa de studenti pasionati de tehnologie
+                  </p>
+                  <h2 class="text-center">Ce facem?</h2>
+                  <p>
+                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                    Cautam cele mai creative solutii la problemele pe care le intampinam
+                  </p>
+                  <h2 class="text-center">Cum o facem?</h2>
+                  <p>
+                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                    Cu pasiune, entuziasm in a scrie cod, munca in echipa si nu ultimul rand, good vibe
+                  </p>
+                </div>
+
+                <div class="box-shadow large-box">
+                  <h1><span>Intr-o lume presata de timp, noi cautam solutii</span></h1>
+                  <hr>
+                  <p>
+                    In ziua de astazi, timpul a devenit o problema pentru tot mai multi oameni. 
+                  </p>
+                  <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                  </p>
+
+                  <button class="btn btn-primary">Afla mai mult</button>
+                  <button class="btn btn-primary">Vreau sa postez</button>
+                </div>
+                
+              </div>
+            </div>
+            
+            
+
+            <!-- <div>
+              <div class="row">
+                <div class="col-xs-12 col-md-2">
+                  <div>
+                    <img src="./img/user-boy.png" alt="User" class="img-thumbnail avatar-image">
+                  </div>
+                  <h2 class="text-center">Andrei</h2>
+                </div>
+                <div class="col-xs-12 col-md-2">
+                  <div>
+                    <img src="./img/user-girl.png" alt="User" class="img-thumbnail avatar-image">
+                  </div>
+                  <h2>Andrei</h2>
+                </div>
+              </div>
+            </div> -->
+          </div>
         </div>
+
+        <!-- About END -->
+
+
+
+
+
+        <!-- End div -->
         </div>
     
 

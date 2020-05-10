@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();  
 const bodyParser = require('body-parser')
 const path = require('path');
-const ppteer = require('./public/backend-js/puppeteer-post.js');
+const scrapeOlx = require('./public/backend-js/olx-scrape.js');
+const scrapePubli24 = require('./public/backend-js/publi24-scrape.js');
 
 const pageRouter = require('./pages');
 
@@ -28,8 +29,7 @@ app.post('/html/post.html',async (req,res) => {
     
   });
   // Calling puppeteer to do the work, it's imported in line 5 from a local file
-  const ppteerResponse = await ppteer();
-  console.log(`Data sent:\n ${ppteerResponse}`);
-  // Send response to frontend
-  res.end(ppteerResponse);
+  await scrapeOlx();
+  // await scrapePubli24();
+  res.end("sdasd");
 });

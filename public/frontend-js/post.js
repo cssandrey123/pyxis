@@ -1,4 +1,4 @@
-function makePostRequest(){
+function sendOlxRequest(){
     const httpRequest = new Promise((resolve,reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST','/html/post.html');
@@ -10,16 +10,42 @@ function makePostRequest(){
         xhr.send(JSON.stringify({"websites":"olx"}));
         // xhr.send({website:"test"});
     });
-    return httpRequest;
+    httpRequest.then(response => {
+        console.log(response);
+    })
+}
+function setLoginAllert(status){
+    let allertSucces = document.getElementById("login-succes-allert");
+    let allertIncorect = document.getElementById("login-incorect-allert");
+
+    if(status == true) {
+        allertSucces.style.display="block";
+        allertIncorect.style.display="none";
+    }
+    else {
+        allertSucces.style.display="none";
+        allertIncorect.style.display="block";
+    }
+}
+
+function setRegisterAllert(status) {
+    let allertSucces = document.getElementById('register-succes-allert');
+
+    if(status == true) {
+        allertSucces.style.display="block";
+    }
+    else {
+        allertSucces.style.display="none";
+    }
 }
 function loginRequest() {
-    let username = document.getElementById('username').value;
-    let password = document.getElementById('password').value;
+    let username = document.getElementById('logUsername').value;
+    let password = document.getElementById('logPassword').value;
 
     const httpRequest = new Promise((resolve,reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST','/login');
-        xhr.responseType = 'json';
+        xhr.responseType = 'text';
         xhr.onload = () => {
             resolve(xhr.response);
         };   
@@ -27,31 +53,53 @@ function loginRequest() {
             username,
             password
         }));
-        // xhr.send({website:"test"});
     });
 
-    httpRequest.then(response => {
-        console.log("Received message from backend: " + JSON.stringify(response));
+    httpRequest.then(response => {  
+        console.log("Received message from backend: " + response);//JSON.stringify(response));
+        if(response === 'false') {
+            setLoginAllert(false);
+        }
+        else {
+            setLoginAllert(true);
+        }
+    }).catch(error => {
+        console.log(error);
     })
-
 }
-// function createNodeElem(names){
-//     let contDiv = document.createElement('div');
-//     contDiv.className = "container";
-//     let list = document.createElement('ul');
-//     contDiv.appendChild(list);
-//     for(name of names){
-//         let liElem = document.createElement('li');
-//         liElem.innerText = name;
-//         list.appendChild(liElem);
-//     }
-//     document.body.appendChild(contDiv);
 
-// }
-function scrapeNames(){
-    makePostRequest().then(data => {
-        // let names = data.names.split(",");
-        // createNodeElem(names);
-        console.log(data);
+function registerRequest(){
+    let username = document.getElementById('regUsername').value;
+    let password = document.getElementById('regPassword').value;
+    let email = document.getElementById('regEmail').value;
+    let fullname = document.getElementById('regName').value;
+
+    const httpRequest = new Promise((resolve,reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST','/register');
+        xhr.responseType = 'text';
+        xhr.onload = () => {
+            resolve(xhr.response);
+        };   
+        xhr.send(JSON.stringify({
+            username,
+            password,
+            email,
+            fullname
+        }));
     });
+
+    httpRequest.then(response => {  
+        console.log("Received message from backend: " + response); //JSON.stringify(response));
+        if(response) {
+            setRegisterAllert(true);
+        }
+        else{
+            setRegisterAllert(false);
+        }
+
+    }).catch(error => {
+        console.log(error);
+    })
 }
+
