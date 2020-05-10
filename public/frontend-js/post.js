@@ -1,20 +1,46 @@
-// function makePostRequest(){
-//     const httpRequest = new Promise((resolve,reject) => {
-//         const xhr = new XMLHttpRequest();
-//         xhr.open('POST','/html/post.html');
-//         xhr.responseType = 'json';
-//         xhr.onload = () => {
-//             resolve(xhr.response);
-//         };
+function sendOlxRequest(){
+    const httpRequest = new Promise((resolve,reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST','/html/post.html');
+        xhr.responseType = 'json';
+        xhr.onload = () => {
+            resolve(xhr.response);
+        };
         
-//         xhr.send(JSON.stringify({"websites":"olx"}));
-//         // xhr.send({website:"test"});
-//     });
-//     return httpRequest;
-// }
+        xhr.send(JSON.stringify({"websites":"olx"}));
+        // xhr.send({website:"test"});
+    });
+    httpRequest.then(response => {
+        console.log(response);
+    })
+}
+function setLoginAllert(status){
+    let allertSucces = document.getElementById("login-succes-allert");
+    let allertIncorect = document.getElementById("login-incorect-allert");
+
+    if(status == true) {
+        allertSucces.style.display="block";
+        allertIncorect.style.display="none";
+    }
+    else {
+        allertSucces.style.display="none";
+        allertIncorect.style.display="block";
+    }
+}
+
+function setRegisterAllert(status) {
+    let allertSucces = document.getElementById('register-succes-allert');
+
+    if(status == true) {
+        allertSucces.style.display="block";
+    }
+    else {
+        allertSucces.style.display="none";
+    }
+}
 function loginRequest() {
-    let username = document.getElementById('username').value;
-    let password = document.getElementById('password').value;
+    let username = document.getElementById('logUsername').value;
+    let password = document.getElementById('logPassword').value;
 
     const httpRequest = new Promise((resolve,reject) => {
         const xhr = new XMLHttpRequest();
@@ -29,9 +55,16 @@ function loginRequest() {
         }));
     });
 
-    httpRequest.then(response => {
-        
+    httpRequest.then(response => {  
         console.log("Received message from backend: " + response);//JSON.stringify(response));
+        if(response === 'false') {
+            setLoginAllert(false);
+        }
+        else {
+            setLoginAllert(true);
+        }
+    }).catch(error => {
+        console.log(error);
     })
 }
 
@@ -56,18 +89,17 @@ function registerRequest(){
         }));
     });
 
-    httpRequest.then(response => {
-        
+    httpRequest.then(response => {  
         console.log("Received message from backend: " + response); //JSON.stringify(response));
+        if(response) {
+            setRegisterAllert(true);
+        }
+        else{
+            setRegisterAllert(false);
+        }
+
+    }).catch(error => {
+        console.log(error);
     })
 }
 
-
-
-// function scrapeNames(){
-//     makePostRequest().then(data => {
-//         // let names = data.names.split(",");
-//         // createNodeElem(names);
-//         console.log(data);
-//     });
-// }

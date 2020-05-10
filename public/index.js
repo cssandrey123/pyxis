@@ -1,5 +1,5 @@
 
-document.getElementById("Login").addEventListener("click",loadLoginPage);
+// document.getElementById("Login").addEventListener("click",loadLoginPage);
 function removeElemFromDom(elem){
     let parentWrapper = document.getElementById("login")
     parentWrapper.innerHTML = "";

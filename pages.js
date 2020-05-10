@@ -25,7 +25,7 @@ router.post('/login', (req, res, next) => {
             if(result) {
                  res.send('Logged as ' + result.username);
             }else {
-                res.send('Username/Password incorrect!');
+                res.send('false');
             }
         });
       });
@@ -58,8 +58,7 @@ router.post('/register', (req, res, next) => {
                 console.log('Error creating a new account...');
             }
         });
-        
-        
+           
     })
 
 });
