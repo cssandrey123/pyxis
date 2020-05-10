@@ -23,9 +23,7 @@ router.post('/login', (req, res, next) => {
         console.log("Username: "+JSON.parse(reqBody).username);
         user.login(JSON.parse(reqBody).username, JSON.parse(reqBody).password, function(result) {
             if(result) {
-                console.log('login' + result);
-
-                res.send(result);
+                 res.send('Logged as ' + result.username);
             }else {
                 res.send('Username/Password incorrect!');
             }
@@ -55,7 +53,7 @@ router.post('/register', (req, res, next) => {
     
         user.create(userInput, function(lastId) {
             if(lastId) {
-                res.send('Welcome '+ userInput.username);
+                res.send('Welcome ' + userInput.username);
             }else {
                 console.log('Error creating a new account...');
             }
