@@ -1,4 +1,6 @@
-let scrapePubli24 = async function(){
+let scrapePubli24 = async function(userData){
+
+  return new Promise( async(resolve,reject) => {
     const puppeteer = require('puppeteer');
 
     let data={
@@ -27,6 +29,11 @@ let scrapePubli24 = async function(){
   
     await page.screenshot({path: 'publi.png', fullPage: true});
     await browser.close();
+
+    resolve("All good");
+  })
+
+
   }
 
 module.exports = scrapePubli24;

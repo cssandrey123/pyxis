@@ -8,13 +8,98 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.custome.css">
-    <link rel="stylesheet" type="text/css" href="../default.css">
+    <link rel="stylesheet" type="text/css" href="../css/post.css">
 </head>
 <body>
-    <div class="container">
-        <button onclick="sendOlxRequest()" class="btn btn-danger">
+    <div class="container form-wrapper d-flex justify-content-center align-items-center flex-column">
+        <div>
+            <h5>Bine ai venit pe pagina de postare, <span>Utilizator</span><h5> 
+        </div>
+        <div>Pentru a merge inapoi la pagina principala, da click pe butonul de mai jos</div>
+        <a href="/" style="color: white; cursor: pointer;" class="btn btn-primary mt-3">Inapoi la pagina principala</a>
+    </div>
+    <div class="container form-wrapper">
+        <!-- <button onclick="sendOlxRequest()" class="btn btn-danger">
             Touch me
-        </button>
+        </button> -->
+        <h1>Adauga anunt</h1>
+        <form id="myForm"  >
+            <div class="form-group">
+              <label for="titlu">Titlu</label>
+              <input required type="text" class="form-control " id="titlu">
+            </div>
+            <div class="form-row ">
+                <div class="form-group col-6">
+                    <label for="pret">Pret</label>
+                    <input required type="number" class="form-control" id="pret">
+                </div>
+                <div class="form-group col-2">
+                    <label for="moneda">Moneda</label>
+                    <select required id="moneda" class="form-control">
+                        <option value="Lei" selected>Lei</option>
+                        <option value="Euro">Euro</option>
+                    </select>
+                </div>    
+            </div>
+            <div class="form-row">
+                <div class="form-group col col-md-4">
+                    <label for="stare-olx">Stare</label>
+                    <select required id="stare-olx" class="form-control">
+                        <option value="Nou" selected>Nou</option>
+                        <option value="Utilizat">Utilizat</option>
+                    </select>
+                </div>
+                <div class="form-group col col-md-4">
+                    <label for="juridic">Persoana fizica sau firma</label>
+                    <select required id="juridic" class="form-control">
+                        <option value="Persoana fizica" selected>Persoana fizica</option>
+                        <option value="Firma">Firma</option>
+                    </select>
+                </div>      
+            </div>
+            <hr class="bg-primary">
+            <div class="form-row">
+                <div class="form-group col col-md-8">
+                    <label for="descriere">Descriere</label>
+                    <textarea class="form-control" id="descriere" rows="10"></textarea>
+                </div>
+            </div>
+            <hr class="bg-primary">
+            <h5>Date de contact</h5>
+            <div class="row">
+                <div class="col col-md-6">
+                    <div class="form-group">
+                        <label for="oras">Orasul sau localitatea</label>
+                        <input required type="text" class="form-control " id="oras">
+                    </div>
+                    <div class="form-group">
+                        <label for="nume">Nume si Prenume</label>
+                        <input required type="text" class="form-control " id="nume">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Adresa de email</label>
+                        <input required type="email" class="form-control " id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefon">Numar de telefon</label>
+                        <input required type="tel" class="form-control " id="telefon">
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-primary">
+            <h2>Unde vrei sa iti publicam anuntul?</h2>
+            <div class="form-check">
+                <input checked="true" class="form-check-input" type="checkbox" value="olx" id="olx">
+                <label class="form-check-label" for="olx">
+                  Olx
+                </label>
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="Publi24">
+              <label class="form-check-label" for="Publi24">Publi24</label>
+            </div>
+            <button onclick="salveazaAnunt()" type="button" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 
 

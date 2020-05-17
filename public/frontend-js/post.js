@@ -103,3 +103,45 @@ function registerRequest(){
     })
 }
 
+function salveazaAnunt() {
+    let titlu = document.getElementById('titlu').value;
+    let pret = document.getElementById('pret').value;
+    let moneda = document.getElementById('moneda').value;
+    let stare_olx = document.getElementById('stare-olx').value;
+    let juridic = document.getElementById('juridic').value;
+    let descriere = document.getElementById('descriere').value;
+    let oras = document.getElementById('oras').value;
+    let email = document.getElementById('email').value;
+    let telefon = document.getElementById('telefon').value;
+    let olx = document.getElementById('olx').checked;
+    let publi24 = document.getElementById('Publi24').checked;
+
+    console.log("test")
+    const httpRequest = new Promise((resolve,reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST','/html/post.html/posteaza');
+        xhr.responseType = 'text';
+        xhr.onload = () => {
+            resolve(xhr.response);
+        };   
+        xhr.send(JSON.stringify({
+            titlu,
+            pret,
+            moneda,
+            stare_olx,
+            juridic,
+            descriere,
+            oras,
+            email,
+            telefon,
+            olx,
+            publi24
+        }));
+    });
+    httpRequest.then(response => {
+        console.log(response);
+    });
+    
+    
+}
+
