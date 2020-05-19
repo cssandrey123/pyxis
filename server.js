@@ -35,7 +35,6 @@ app.post('/html/post.html',async (req,res) => {
 });
 
 app.post('/html/post.html/posteaza',async (req,res) => {
-  console.log(req);
   req.on('data', async (reqBody) => {
     let olx=false;
     let publi=false;
