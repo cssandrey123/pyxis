@@ -29,7 +29,38 @@ app.post('/html/post.html',async (req,res) => {
     
   });
   // Calling puppeteer to do the work, it's imported in line 5 from a local file
-  await scrapeOlx();
+  // await scrapeOlx();
   // await scrapePubli24();
   res.end("sdasd");
+});
+
+app.post('/html/post.html/posteaza',async (req,res) => {
+  req.on('data', async (reqBody) => {
+    let olx=false;
+    let publi=false;
+
+    if(JSON.parse(reqBody).olx) {
+      // apelat puppeteer pt olx
+      let olxResponse = await scrapeOlx(JSON.parse(reqBody));
+      if(olxResponse)
+        olx=true;
+    }
+    if(JSON.parse(reqBody).publi24) {
+      // apelat puppeteer pt publi24
+      let publiResponse = await scrapePubli24(JSON.parse(reqBody));
+      if(publiResponse)
+        publi=true;
+    }
+
+    if(JSON.parse(reqBody).olx && olx === false){
+      res.end('Something went wrong');
+    }
+    if(JSON.parse(reqBody).publi24 && publi24 === false){
+      res.end('Something went wrong');
+    }
+
+    res.end('Post succesfully');
+  });
+  
+ 
 });
