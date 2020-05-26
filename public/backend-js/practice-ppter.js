@@ -18,20 +18,23 @@ puppeteer.launch().then(async function(browser) {
   console.log(resu);
 });
 */
+
 const puppeteer = require('puppeteer');
 
 let data={
 	email : "catalinaanamaria56@gmail.com",
 	parola : "123456789Catalina",
-  titlu : "aaaa",
-  categorie: ['Auto', 'Autoturisme', 'Cadillac'],
-  descriere : "....",
+  titlu : "Rochie lunga",
+  categorie: "Moda",
+  descriere : "Vand rochie neagra, marimea M",
+  pret : "1000",
+  marime : "M",
+  stare: "Purtata o singura data",
+  culoare: "Rosu",
   oras : "Arad",
   nrTel : "074679890"
 
 }
-//let categorie =["Auto","Imobiliare", "Locuri de munca", "Electrocasnice", "Moda si frumusete",
- //"Casa si gradina", "Mama si copilul", "Sport si timp liber", "Animale", "Agro", "Servicii"];
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -57,42 +60,46 @@ async function olx(){
     ]);
   
     try{
-      await page.waitForSelector('#smsVerificationContainer > div.step.step1.active',{timeout : 10000});
+      await page.waitForSelector('#fancybox-wrap',{timeout : 10000});
       await page.click('#fancybox-close');
     } catch (error){
       console.log("Fancy box1 did not appear");
     }
     try{
-      await page.waitForSelector('#smsVerificationContainer > div.step.closeConfirm.active', {timeout : 10000})
+      await page.waitForSelector('#smsVerificationContainer > div.step.closeConfirm.active > div.smsverification__footer > div.action-minor > a > span', {timeout : 10000});
       await page.click('#smsVerificationContainer > div.step.closeConfirm.active > div.smsverification__footer > div.action-minor > a > span');
     }catch(error){
       console.log("Fancy box 2 did not appear");
     }
 
     await page.type('#add-title', data["titlu"]);
-
-    await page.click('#targetrenderSelect1-0 > dt > a');
-    await page.waitForSelector('#fancybox-content', {timeout: 10000});
-   
+    
+    await page.waitForSelector('.h100 > #category-breadcrumb-container > #targetrenderSelect1-0 > dt > a')
+    await page.click('.h100 > #category-breadcrumb-container > #targetrenderSelect1-0 > dt > a')
+    
+    await page.waitForSelector('.icongrid > .fleft > .lheight16 > #cat-1081 > .caticon')
+    await page.click('.icongrid > .fleft > .lheight16 > #cat-1081 > .caticon')
+    
+    await page.waitForSelector('#fancybox-outer > #fancybox-content #fancybox-close')
+    await page.click('#fancybox-outer > #fancybox-content #fancybox-close')
 
     
+
     await page.type('#add-description', data["descriere"]);
-
-   
-
     await page.type ('#mapAddress', data["oras"]);
-
     await page.waitForSelector('#autosuggest-geo-ul > li', {timeout: 5000});
     await page.keyboard.press('Enter');
     await page.type ('#add-phone',data["nrTel"]);
 
-    await page.click('#newOffer > div > div.fblock.cloud > div.area.clr > div > label');
+    
     
     //Posting
     //await page.click('#save');
+
     //waits to take a screenshot of the page
-    await timeout(5000);
+   
     await page.screenshot({path: 'olx.png', fullPage: true});
+    
     await browser.close();
 
 }
@@ -100,16 +107,20 @@ olx();
 async function publi24(){
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  const publi24 = 'https://www.publi24.ro/adauga-anunturi?utm_expid=.OBHtHVd1SemklUogYx5Stg.0&utm_referrer=https%3A%2F%2Fwww.publi24.ro%2F';
-  await page.goto(publi24);
-
+  await page.goto('https://www.publi24.ro/');
+  await page.click('#header > div > div > a.warningbg.radius');
+  await page.waitForNavigation();
+  await page.click('#newOffer > div > div.fblock.cloud > div.area.clr > div > label', data['email']);
+  await page.click ('#content > div > div > div > div:nth-child(3) > div > form > input:nth-child(3)', data[parola]);
+  /*
   await page.type('#Title', data["titlu"]);
   await page.type('#Description', data["descriere"]);
   await page.click('#selectCategory > div.large-3.medium-6.columns > a')
   await page.waitForSelector('#CategoryBoxContainer > div > div > div > ul', {timeout: 5000});
   
-
+*/
   await page.screenshot({path: 'publi.png', fullPage: true});
   await browser.close();
 }
 //publi24();
+
