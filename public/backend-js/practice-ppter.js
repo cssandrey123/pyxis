@@ -1,43 +1,23 @@
-/*
-const puppeteer = require('puppeteer');
-puppeteer.launch().then(async function(browser) {
-    const page = await browser.newPage();
-    await page.goto('http://digidb.io/digimon-list/');
-    
-    // Targeting the DOM Nodes that contain the Digimon names
-    const digimonNames = await page.$$eval('#digiList tbody tr td:nth-child(2) a', function(digimons) {
-      // Mapping each Digimon name to an array
-        return digimons.map(function(digimon) {
-          return digimon.innerText;
-    });
-  });
-  // Transform the array into a string, then to an object and stringify it
-  let dnString = digimonNames.join(",");
-  let resu = JSON.stringify({names:dnString});
-  await browser.close();
-  console.log(resu);
-});
-*/
-const puppeteer = require('puppeteer');
-
-let data={
-	email : "catalinaanamaria56@gmail.com",
-	parola : "123456789Catalina",
-  titlu : "aaaa",
-  categorie: 'Auto',
-  descriere : "....",
-  oras : "Arad",
-  nrTel : "074679890"
-
+let userData={
+    numePubli24 : "Catalina G",
+    email : "catalinagligor@gmail.com",
+    parola : "123456789Catalina",
+    titlu : "Telefon Samsung Galaxy S5",
+    descriere : "Vand telefon mobil samsung galaxy s5, stare foarte buna.",
+    pret : "300",
+    moneda : "lei",
+    stare_olx : "utilizat",
+    juridic : "Persoana fizica",
+    oras : "Timisoara",
+    telefon : "0742331917"
 }
-//let categorie =["Auto","Imobiliare", "Locuri de munca", "Electrocasnice", "Moda si frumusete",
- //"Casa si gradina", "Mama si copilul", "Sport si timp liber", "Animale", "Agro", "Servicii"];
 
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-async function olx(){
-	const browser = await puppeteer.launch();
+let olxScrapeMobile =async function (userData){
+  function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+    const puppeteer = require('puppeteer');
+    const browser = await puppeteer.launch({ headless: false, slowMo: 100, defaultViewport: null });
   	const page = await browser.newPage();
     const olx = 'https://www.olx.ro/adauga-anunt/?bs=homepage_adding';
     await page.goto(olx);
@@ -49,74 +29,130 @@ async function olx(){
       console.log("Cookie didn't appear.")
     }
 
-	  await page.type('#userEmail', data["email"]);
-    await page.type('#userPass', data["parola"]);
+	  await page.type('#userEmail', userData["email"]);
+    await page.type('#userPass', userData["parola"]);
   	await Promise.all([
    	 page.waitForNavigation(),
      page.click('#se_userLogin')
     ]);
   
-    try{
-      await page.waitForSelector('#smsVerificationContainer > div.step.step1.active', {timeout : 5000});
-      await page.click('#fancybox-close');
-    } catch (error){
-      console.log("Fancy box1 did not appear");
+    await page.type('#add-title', userData["titlu"]);
+   await page.click('.h100 > #category-breadcrumb-container > #targetrenderSelect1-0 > dt > a');
+  
+    await page.waitForSelector('.icongrid > .fleft:nth-child(1) > .lheight16 > #cat-101 > .caticon');
+    await page.click('.icongrid > .fleft:nth-child(1) > .lheight16 > #cat-101 > .caticon');
+    await page.waitForSelector('.fleft > .fleft > .dynamic-param-price__value > .dynamic-param-price__input > .text');
+    await page.click('.fleft > .fleft > .dynamic-param-price__value > .dynamic-param-price__input > .text');
+    await page.type('.fleft > .fleft > .dynamic-param-price__value > .dynamic-param-price__input > .text', userData["pret"]);
+    
+    if(userData["moneda"]=="euro"){
+      await page.click("#targetrenderSelect2-0 > dt > a");
+      await page.click("#targetrenderSelect2-0 > dd > ul > li:nth-child(2) > a");
     }
-    try{
-      await page.waitForSelector('#smsVerificationContainer > div.step.closeConfirm.active', {timeout : 5000})
-      await page.click('#fancybox-close');
-    }catch(error){
-      console.log("Fancy box 2 did not appear");
+    if (userData["stare_olx"]=="nou"){
+      await page.click("#targetparam17 > li:nth-child(3) > a");
+    }
+    else {
+      await page.click("#targetparam17 > li:nth-child(2) > a");
     }
 
-    await page.type('#add-title', data["titlu"]);
-    await page.click('#targetrenderSelect1-0 > dt > a');
-    /* alegere categorie :((
-    switch(data["categorie"]){
-      case "Auto":
-        await page.click("#cat-5 > span.caticon.cat-icon-5");
-        break;
-      case "Imobiliare":
-          await page.click("#cat-3 > span.caticon.cat-icon-3");
-          break;
-       case "Locuri de munca":
-          await page.click("#cat-4 > span.caticon.cat-icon-4");
-          break;
+    if(userData["juridic"]="Persoana fizica"){
+      await page.click("#targetid_private_business > li:nth-child(2) > a");
     }
-*/
-    await page.type('#add-description', data["descriere"]);
-
-   
-
-    await page.type ('#mapAddress', data["oras"]);
-
+    else{
+      await page.click("#targetid_private_business > li:nth-child(3) > a");
+    }
+    await page.type('#add-description', userData["descriere"]);
+    await page.type ('#mapAddress', userData["oras"]);
     await page.waitForSelector('#autosuggest-geo-ul > li', {timeout: 5000});
     await page.keyboard.press('Enter');
-    await page.type ('#add-phone',data["nrTel"]);
-
-    await page.click('#newOffer > div > div.fblock.cloud > div.area.clr > div > label');
-    
-    //Posting
-    //await page.click('#save');
-    await timeout(5000);
+    await page.type ('#add-phone',userData["telefon"]);
+    await page.waitForSelector('.acceptrules-box > .fblock > .area > .focusbox > .icon');
+    await page.click('.acceptrules-box > .fblock > .area > .focusbox > .icon');
+    await page.click("#save");
+    await page.click ("#innerLayout > section > div.wrapper > ul > li.olx-multipay__step.olx-multipay__step--bundles > div > div.olx-multipay__step-buttons > a.olx-button.olx-button--secondary.qa-button-promo-without.js-allow-abandon");
+   
     await page.screenshot({path: 'olx.png', fullPage: true});
     await browser.close();
 
 }
-//olx();
-async function publi24(){
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  const publi24 = 'https://www.publi24.ro/adauga-anunturi?utm_expid=.OBHtHVd1SemklUogYx5Stg.0&utm_referrer=https%3A%2F%2Fwww.publi24.ro%2F';
-  await page.goto(publi24);
-
-  await page.type('#Title', data["titlu"]);
-  await page.type('#Description', data["descriere"]);
-  await page.click('#selectCategory > div.large-3.medium-6.columns > a')
-  await page.waitForSelector('#CategoryBoxContainer > div > div > div > ul', {timeout: 5000});
+//olxScrapeMobile(userData);
+let Publi24ScrapeMobile = async function (userData){
+  function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+  const puppeteer = require('puppeteer');
+  const browser = await puppeteer.launch({headless: false, slowMo: 100, defaultViewport: null })
+  const page = await browser.newPage()
   
+  const navigationPromise = page.waitForNavigation()
+  
+  await page.goto('https://www.publi24.ro/')
+  
+  await page.setViewport({ width: 1280, height: 578 })
+  
+  await page.waitForSelector('#headerPartial > #header > .row > .small-12 > .warningbg')
+  await page.click('#headerPartial > #header > .row > .small-12 > .warningbg')
+  
+  await navigationPromise
+  
+  await page.waitForSelector('.login > .row > .small-12 > form > .radius:nth-child(2)')
+  await page.click('.login > .row > .small-12 > form > .radius:nth-child(2)')
+  
+  await page.type('.login > .row > .small-12 > form > .radius:nth-child(2)', userData['email'])
+  
+  await page.type('.login > .row > .small-12 > form > .radius:nth-child(3)', userData['parola'])
+  
+  await page.waitForSelector('.login > .row > .small-12 > form > .successbg')
+  await page.click('.login > .row > .small-12 > form > .successbg')
+  
+  await navigationPromise
+  
+  await page.waitForSelector('.placead > #save-article-form #Title')
+  await page.click('.placead > #save-article-form #Title')
+  
+  await page.type('.placead > #save-article-form #Title', userData['titlu'])
+  
+  await page.type('.placead > #save-article-form #Description', userData['descriere'])
+  
+  await page.waitForSelector('.placead > #save-article-form > #selectCategory > .large-3 > .button')
+  await page.click('.placead > #save-article-form > #selectCategory > .large-3 > .button')
+  
+  await page.waitForSelector('.large-12 > .large-block-grid-6 > .radius:nth-child(1) > .GTM_SelectCategory > .GTM_SelectCategory:nth-child(1)')
+  await page.click('.large-12 > .large-block-grid-6 > .radius:nth-child(1) > .GTM_SelectCategory > .GTM_SelectCategory:nth-child(1)')
+  
+  await page.waitForSelector('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+  await page.click('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+  
+  await page.select('#save-article-form > #PlaceAdFormDetails #Prop_subcategory', 'Samsung')
+  
+  await page.waitForSelector('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+  await page.click('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+  
+  await page.waitForSelector('#save-article-form > #PlaceAdFormDetails #Price')
+  await page.click('#save-article-form > #PlaceAdFormDetails #Price')
+  await page.type('#save-article-form > #PlaceAdFormDetails #Price', userData['pret'])
 
-  await page.screenshot({path: 'publi.png', fullPage: true});
-  await browser.close();
+  
+  await page.waitForSelector('#save-article-form > #formContact #ContactName')
+  await page.click('#save-article-form > #formContact #ContactName')
+  
+  await page.type('#save-article-form > #formContact #ContactName', userData['numePubli24'])
+  
+  await page.waitForSelector('#save-article-form > #formContact #Phone')
+  await page.click('#save-article-form > #formContact #Phone')
+  
+  await page.type('#save-article-form > #formContact #Phone', userData['telefon'])
+  
+  await page.type('#formContact > #rowLocation #Location', userData['oras'])
+  await page.waitForSelector('#eac-container-Location', {timeout: 5000});
+  await page.keyboard.press('Enter');
+
+  
+  await page.waitForSelector('.promo > tbody > .activation > td > .select')
+  await page.click('.promo > tbody > .activation > td > .select')
+  
+  await page.click('#save-article-btn');
+  await browser.close()
 }
-publi24();
+Publi24ScrapeMobile(userData);
