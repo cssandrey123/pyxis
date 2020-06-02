@@ -1,36 +1,84 @@
 let scrapePubli24 = async function(userData){
 
   return new Promise( async(resolve,reject) => {
-    const puppeteer = require('puppeteer');
-
-    let data={
-        email : "catalinaanamaria56@gmail.com",
-        parola : "123456789Catalina",
-        titlu : "aaaa",
-        categorie: 'Auto',
-        descriere : "....",
-        oras : "Arad",
-        nrTel : "074679890"
-    }
-
     function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+      return new Promise(resolve => setTimeout(resolve, ms));
     };
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    const publi24 = 'https://www.publi24.ro/adauga-anunturi?utm_expid=.OBHtHVd1SemklUogYx5Stg.0&utm_referrer=https%3A%2F%2Fwww.publi24.ro%2F';
-    await page.goto(publi24);
-  
-    await page.type('#Title', data["titlu"]);
-    await page.type('#Description', data["descriere"]);
-    await page.click('#selectCategory > div.large-3.medium-6.columns > a')
-    await page.waitForSelector('#CategoryBoxContainer > div > div > div > ul', {timeout: 5000});
+    const puppeteer = require('puppeteer');
+    const browser = await puppeteer.launch({headless: false, slowMo: 100, defaultViewport: null })
+    const page = await browser.newPage()
     
+    const navigationPromise = page.waitForNavigation()
+    
+    await page.goto('https://www.publi24.ro/')
+    
+    await page.setViewport({ width: 1280, height: 578 })
+    
+    await page.waitForSelector('#headerPartial > #header > .row > .small-12 > .warningbg')
+    await page.click('#headerPartial > #header > .row > .small-12 > .warningbg')
+    
+    await navigationPromise
+    
+    await page.waitForSelector('.login > .row > .small-12 > form > .radius:nth-child(2)')
+    await page.click('.login > .row > .small-12 > form > .radius:nth-child(2)')
+    
+    await page.type('.login > .row > .small-12 > form > .radius:nth-child(2)', userData['email'])
+    
+    await page.type('.login > .row > .small-12 > form > .radius:nth-child(3)', userData['parola'])
+    
+    await page.waitForSelector('.login > .row > .small-12 > form > .successbg')
+    await page.click('.login > .row > .small-12 > form > .successbg')
+    
+    await navigationPromise
+    
+    await page.waitForSelector('.placead > #save-article-form #Title')
+    await page.click('.placead > #save-article-form #Title')
+    
+    await page.type('.placead > #save-article-form #Title', userData['titlu'])
+    
+    await page.type('.placead > #save-article-form #Description', userData['descriere'])
+    
+    await page.waitForSelector('.placead > #save-article-form > #selectCategory > .large-3 > .button')
+    await page.click('.placead > #save-article-form > #selectCategory > .large-3 > .button')
+    
+    await page.waitForSelector('.large-12 > .large-block-grid-6 > .radius:nth-child(1) > .GTM_SelectCategory > .GTM_SelectCategory:nth-child(1)')
+    await page.click('.large-12 > .large-block-grid-6 > .radius:nth-child(1) > .GTM_SelectCategory > .GTM_SelectCategory:nth-child(1)')
+    
+    await page.waitForSelector('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+    await page.click('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+    
+    await page.select('#save-article-form > #PlaceAdFormDetails #Prop_subcategory', 'Samsung')
+    
+    await page.waitForSelector('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+    await page.click('#save-article-form > #PlaceAdFormDetails #Prop_subcategory')
+    
+    await page.waitForSelector('#save-article-form > #PlaceAdFormDetails #Price')
+    await page.click('#save-article-form > #PlaceAdFormDetails #Price')
+    await page.type('#save-article-form > #PlaceAdFormDetails #Price', userData['pret'])
   
-    await page.screenshot({path: 'publi.png', fullPage: true});
+    
+    await page.waitForSelector('#save-article-form > #formContact #ContactName')
+    await page.click('#save-article-form > #formContact #ContactName')
+    
+    await page.type('#save-article-form > #formContact #ContactName', userData['numePubli24'])
+    
+    await page.waitForSelector('#save-article-form > #formContact #Phone')
+    await page.click('#save-article-form > #formContact #Phone')
+    
+    await page.type('#save-article-form > #formContact #Phone', userData['telefon'])
+    
+    await page.type('#formContact > #rowLocation #Location', userData['oras'])
+    await page.waitForSelector('#eac-container-Location', {timeout: 5000});
+    await page.keyboard.press('Enter');
+  
+    
+    await page.waitForSelector('.promo > tbody > .activation > td > .select')
+    await page.click('.promo > tbody > .activation > td > .select')
+    
+    await page.click('#save-article-btn');
     await browser.close();
 
-    resolve("All good");
+    resolve("Publi24 post ok");
   })
 
 
