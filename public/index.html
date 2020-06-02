@@ -38,19 +38,25 @@
                   <a class="nav-link" href="html/post.html">Posteaza</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Despre noi</a>
+                    <a class="nav-link" href="#wrapperAbout">Despre noi</a>
                   </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">What we do</a>
-                </li>
               </ul>
               <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#loginModal" id="Login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#registerModal">Register</a>
-                </li>
+                  <li id="logLink" class="nav-item">
+                      <a  class="nav-link" data-toggle="modal" data-target="#loginModal" id="Login">Login</a>
+                  </li>
+                  <li id="regLink" class="nav-item">
+                      <a class="nav-link" data-toggle="modal" data-target="#registerModal">Register</a>
+                  </li>
+                <div id="user-details" style="display: none;" class="dropdown mr-3">
+                  <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown button
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a onclick="logOut()"  class="dropdown-item" href="#">Logout</a>
+                    <a class="dropdown-item" href="#">Conturi</a>
+                  </div>
+                </div>
                </ul>
             </div>
           </nav>
@@ -126,6 +132,9 @@
                     <div style="display: none;" id="register-succes-allert" class="alert alert-success" role="alert">
                       Te-ai inregistrat cu succes!
                     </div>
+                    <div style="display: none;" id="register-incorect-allert" class="alert alert-danger" role="alert">
+                      Nume de utilizator invalid!
+                    </div>
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -192,7 +201,7 @@
 
         <!-- About START -->
 
-        <div class="wrapper-about p-3">  
+        <div id="wrapperAbout" data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="wrapper-about p-3">  
           <div style="height: 100%;" class="container-fluid d-flex">
             <div class="about-left">
               <img src="./img/boy_avatar_2.png" alt="User" class="">
@@ -234,24 +243,6 @@
               </div>
             </div>
             
-            
-
-            <!-- <div>
-              <div class="row">
-                <div class="col-xs-12 col-md-2">
-                  <div>
-                    <img src="./img/user-boy.png" alt="User" class="img-thumbnail avatar-image">
-                  </div>
-                  <h2 class="text-center">Andrei</h2>
-                </div>
-                <div class="col-xs-12 col-md-2">
-                  <div>
-                    <img src="./img/user-girl.png" alt="User" class="img-thumbnail avatar-image">
-                  </div>
-                  <h2>Andrei</h2>
-                </div>
-              </div>
-            </div> -->
           </div>
         </div>
 
@@ -264,6 +255,28 @@
         <!-- End div -->
         </div>
     
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyDCPR_vPiieMyfhIlWYU0RuSU_gMSknqSM",
+        authDomain: "pyxis-c0615.firebaseapp.com",
+        databaseURL: "https://pyxis-c0615.firebaseio.com",
+        projectId: "pyxis-c0615",
+        storageBucket: "pyxis-c0615.appspot.com",
+        messagingSenderId: "869836526414",
+        appId: "1:869836526414:web:ea8a661b1aa062de49441f"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->

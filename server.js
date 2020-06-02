@@ -5,7 +5,8 @@ const path = require('path');
 const scrapeOlx = require('./public/backend-js/olx-scrape.js');
 const scrapePubli24 = require('./public/backend-js/publi24-scrape.js');
 
-const pageRouter = require('./pages');
+
+// const pageRouter = require('./pages');
 
 app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
 //routers
-app.use('/',pageRouter);
+// app.use('/',pageRouter);
 
 const PORT = /*process.env.PORT ||*/ 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
@@ -62,5 +63,24 @@ app.post('/html/post.html/posteaza',async (req,res) => {
     res.end('Post succesfully');
   });
   
- 
 });
+
+// app.post('/register',async (req,res) => {
+//   req.on('data', async (reqBody) => {
+//     let user = {
+//       username: "admin",
+//       password: "admin",
+//       email: "admin@admin.com"
+//     }
+
+//     let data = JSON.parse(reqBody);
+//     createUser(user);
+//   });
+// });
+
+// function createUser(user) {
+//   var userId = database.ref().child('users').push().key;
+//   database.ref('users/' + userId).set(...user);
+// }
+
+

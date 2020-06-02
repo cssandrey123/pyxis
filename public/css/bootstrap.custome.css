@@ -16,6 +16,9 @@
     background-color: #055980;
     border-color:#055980
 }
+.dropdown-item {
+    color:#000000!important;
+}
 /* navbar END */
 
 
@@ -36,7 +39,7 @@
         position: fixed!important;
         top: 0;
         width: 100%;
-        overflow: hidden!important;
+        /* overflow: hidden!important; */
         padding-top: 0!important;
         padding-bottom: 0!important;
         /* padding-left: 0!important; */

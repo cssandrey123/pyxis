@@ -1,19 +1,12 @@
-function sendOlxRequest(){
-    const httpRequest = new Promise((resolve,reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST','/html/post.html');
-        xhr.responseType = 'json';
-        xhr.onload = () => {
-            resolve(xhr.response);
-        };
-        
-        xhr.send(JSON.stringify({"websites":"olx"}));
-        // xhr.send({website:"test"});
-    });
-    httpRequest.then(response => {
-        console.log(response);
-    })
-}
+const database = firebase.database();
+
+$( document ).ready(function() {
+    let user = localStorage.getItem('logedUser');
+    if(user) {
+        showUserDetails(JSON.parse(user).fullname,true);
+    }
+});
+
 function setLoginAllert(status){
     let allertSucces = document.getElementById("login-succes-allert");
     let allertIncorect = document.getElementById("login-incorect-allert");
@@ -30,118 +23,159 @@ function setLoginAllert(status){
 
 function setRegisterAllert(status) {
     let allertSucces = document.getElementById('register-succes-allert');
+    let allertInvalid = document.getElementById('register-incorect-allert');
+
 
     if(status == true) {
         allertSucces.style.display="block";
+        allertInvalid.style.display="none";
     }
     else {
         allertSucces.style.display="none";
+        allertInvalid.style.display="block";
+
     }
 }
-function loginRequest() {
+async function loginRequest() {
     let username = document.getElementById('logUsername').value;
     let password = document.getElementById('logPassword').value;
 
-    const httpRequest = new Promise((resolve,reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST','/login');
-        xhr.responseType = 'text';
-        xhr.onload = () => {
-            resolve(xhr.response);
-        };   
-        xhr.send(JSON.stringify({
-            username,
-            password
-        }));
-    });
+    let user = {
+        username,
+        password
+    };
 
-    httpRequest.then(response => {  
-        console.log("Received message from backend: " + response);//JSON.stringify(response));
-        if(response === 'false') {
-            setLoginAllert(false);
-        }
-        else {
-            setLoginAllert(true);
-        }
-    }).catch(error => {
-        console.log(error);
-    })
+    let userData = await checkUserInDB(user);
+    if(userData.userId != "") {
+        setLoginAllert(true);
+        setTimeout(()=>{
+            localStorage.setItem('logedUser', JSON.stringify(userData));
+            $('#loginModal').modal('hide');
+    
+            showUserDetails(userData.fullname,true);
+            clearInputs();
+        },1000);
+    }
+    else {
+        setLoginAllert(false);
+    }
+
 }
 
-function registerRequest(){
+async function registerRequest(){
     let username = document.getElementById('regUsername').value;
     let password = document.getElementById('regPassword').value;
     let email = document.getElementById('regEmail').value;
     let fullname = document.getElementById('regName').value;
 
-    const httpRequest = new Promise((resolve,reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST','/register');
-        xhr.responseType = 'text';
-        xhr.onload = () => {
-            resolve(xhr.response);
-        };   
-        xhr.send(JSON.stringify({
-            username,
-            password,
-            email,
-            fullname
-        }));
-    });
+    let user = {
+        username,
+        password,
+        email,
+        fullname
+    }
 
-    httpRequest.then(response => {  
-        console.log("Received message from backend: " + response); //JSON.stringify(response));
-        if(response) {
-            setRegisterAllert(true);
-        }
-        else{
-            setRegisterAllert(false);
-        }
+    let isUnique = await validateUniqueUser(user);
 
-    }).catch(error => {
-        console.log(error);
+    if(isUnique == false) {
+        setRegisterAllert(false);
+        console.log("fasle");
+    }
+    else {
+        createUser(user);
+        setRegisterAllert(true);
+
+        setTimeout(()=>{
+            clearInputs();
+            $('#registerModal').modal('hide');
+        },1000);
+    }
+
+}
+
+
+
+function createUser(user) {
+    var userId = database.ref().child('users').push().key;
+    database.ref('users/' + userId).set(user);
+}
+
+async function validateUniqueUser(new_user) {
+    return new Promise( async(resolve, reject) => {
+        var users_db = firebase.database().ref('users');
+        await users_db.once('value', async (snapshot) => {
+            
+            let users = snapshot.val();
+            for(user in users){
+                if(users[user].username == new_user.username){
+                    resolve(false);
+                }
+            }
+            resolve(true);
+        })
     })
 }
 
-function salveazaAnunt() {
-    let titlu = document.getElementById('titlu').value;
-    let pret = document.getElementById('pret').value;
-    let moneda = document.getElementById('moneda').value;
-    let stare_olx = document.getElementById('stare-olx').value;
-    let juridic = document.getElementById('juridic').value;
-    let descriere = document.getElementById('descriere').value;
-    let oras = document.getElementById('oras').value;
-    let email = document.getElementById('email').value;
-    let telefon = document.getElementById('telefon').value;
-    let olx = document.getElementById('olx').checked;
-    let publi24 = document.getElementById('Publi24').checked;
-
-    console.log("test")
-    const httpRequest = new Promise((resolve,reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST','/html/post.html/posteaza');
-        xhr.responseType = 'text';
-        xhr.onload = () => {
-            resolve(xhr.response);
-        };   
-        xhr.send(JSON.stringify({
-            titlu,
-            pret,
-            moneda,
-            stare_olx,
-            juridic,
-            descriere,
-            oras,
-            email,
-            telefon,
-            olx,
-            publi24
-        }));
-    });
-    httpRequest.then(response => {
-        console.log(response);
-    });
-    
-    
+async function checkUserInDB(new_user) {
+    return new Promise( async(resolve, reject) => {
+        var users_db = firebase.database().ref('users');
+        await users_db.once('value', async (snapshot) => {
+            let users = snapshot.val();
+            for(user in users){
+                if(users[user].username == new_user.username && users[user].password == new_user.password){
+                    resolve({
+                        userId:user,
+                        fullname: users[user].fullname
+                    });
+                }
+            }
+            resolve({
+                userId:"",
+                fullname:""
+            });
+        })
+    })
 }
+
+function showUserDetails(name,state) {
+    let login = document.getElementById("logLink");
+    let reg = document.getElementById("regLink");
+    let userDetails = document.getElementById("user-details");
+
+    if(state == true) {
+        login.style.display="none";
+        reg.style.display="none";
+        userDetails.style.display="block";
+
+        userDetails.childNodes[1].innerHTML=name;
+        console.log(userDetails.childNodes[1]);
+    }
+    else {
+        userDetails.style.display="none";
+        login.style.display="block";
+        reg.style.display="block";
+    }
+}
+
+function logOut(){
+    showUserDetails("",false);
+    localStorage.clear();
+}
+
+function clearInputs(){
+    document.getElementById('regUsername').value="";
+    document.getElementById('regPassword').value="";
+    document.getElementById('regEmail').value="";
+    document.getElementById('regName').value="";
+
+    document.getElementById('logUsername').value="";
+    document.getElementById('logPassword').value="";
+
+    document.getElementById('register-succes-allert').style.display="none";
+    document.getElementById('login-succes-allert').style.display="none";
+
+}
+
+
+
 

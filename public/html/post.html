@@ -11,14 +11,26 @@
     <link rel="stylesheet" type="text/css" href="../css/post.css">
 </head>
 <body>
-    <div class="container form-wrapper d-flex justify-content-center align-items-center flex-column">
-        <div>
-            <h5>Bine ai venit pe pagina de postare, <span>Utilizator</span><h5> 
+    <div id="logged-user">
+        <div  class="container form-wrapper d-flex justify-content-center align-items-center flex-column">
+            <div>
+                <h5>Bine ai venit pe pagina de postare, <span id="user-span">Utilizator</span><h5> 
+            </div>
+            <div>Pentru a merge inapoi la pagina principala, da click pe butonul de mai jos</div>
+            <a href="/" style="color: white; cursor: pointer;" class="btn btn-primary mt-3">Inapoi la pagina principala</a>
         </div>
-        <div>Pentru a merge inapoi la pagina principala, da click pe butonul de mai jos</div>
-        <a href="/" style="color: white; cursor: pointer;" class="btn btn-primary mt-3">Inapoi la pagina principala</a>
     </div>
-    <div class="container form-wrapper">
+    <div  id="not-logged-user">
+        <div class="container form-wrapper d-flex justify-content-center align-items-center flex-column">
+            <div>
+                <h3>IMPORTANT!<h3> 
+            </div>
+            <div>Pentru a putea posta, trebuie sa fi logat. Da click mai jos pentru a merge pe pagina principala si fi sigur ca esti logat</div>
+            <a href="/" style="color: white; cursor: pointer;" class="btn btn-primary mt-3">Inapoi la pagina principala</a>
+        </div>
+    </div>
+
+    <div id="formWrapper" class="container form-wrapper">
         <!-- <button onclick="sendOlxRequest()" class="btn btn-danger">
             Touch me
         </button> -->
@@ -95,17 +107,65 @@
                 </label>
             </div>
             <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="Publi24">
-              <label class="form-check-label" for="Publi24">Publi24</label>
+                <input type="checkbox" class="form-check-input" id="Publi24">
+                <label class="form-check-label" for="Publi24">
+                  Publi24
+                </label>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-6">
+                    <div class="form-group">
+                        <label for="username-olx">Username OLX</label>
+                        <input required type="text" class="form-control " id="username-olx">
+                    </div>
+                    <div class="form-group">
+                        <label for="password-olx">Parola OLX</label>
+                        <input required type="password" class="form-control " id="password-olx">
+                    </div>
+                </div>
+
+                <div class="col col-md-6">
+                    <div class="form-group">
+                        <label for="username-publi24">Username publi24</label>
+                        <input required type="text" class="form-control " id="username-publi24">
+                    </div>
+                    <div class="form-group">
+                        <label for="password-publi24">Parola publi24</label>
+                        <input required type="password" class="form-control " id="password-publi24">
+                    </div>
+                </div>
             </div>
             <button onclick="salveazaAnunt()" type="button" class="btn btn-primary">Submit</button>
         </form>
     </div>
 
+     <!-- The core Firebase JS SDK is always required and must be listed first -->
+     <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+ 
+ 
+     <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+ 
+     <script>
+       // Your web app's Firebase configuration
+       var firebaseConfig = {
+         apiKey: "AIzaSyDCPR_vPiieMyfhIlWYU0RuSU_gMSknqSM",
+         authDomain: "pyxis-c0615.firebaseapp.com",
+         databaseURL: "https://pyxis-c0615.firebaseio.com",
+         projectId: "pyxis-c0615",
+         storageBucket: "pyxis-c0615.appspot.com",
+         messagingSenderId: "869836526414",
+         appId: "1:869836526414:web:ea8a661b1aa062de49441f"
+       };
+       // Initialize Firebase
+       firebase.initializeApp(firebaseConfig);
+     </script>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="../frontend-js/post.js"></script>
+    <script src="../frontend-js/post-page.js"></script>
 </body>
 </html>
