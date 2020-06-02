@@ -5,7 +5,7 @@ let scrapePubli24 = async function(userData){
       return new Promise(resolve => setTimeout(resolve, ms));
     };
     const puppeteer = require('puppeteer');
-    const browser = await puppeteer.launch({headless: false, slowMo: 100, defaultViewport: null })
+    const browser = await puppeteer.launch({headless: true, slowMo: 100, defaultViewport: null })
     const page = await browser.newPage()
     
     const navigationPromise = page.waitForNavigation()
@@ -22,9 +22,9 @@ let scrapePubli24 = async function(userData){
     await page.waitForSelector('.login > .row > .small-12 > form > .radius:nth-child(2)')
     await page.click('.login > .row > .small-12 > form > .radius:nth-child(2)')
     
-    await page.type('.login > .row > .small-12 > form > .radius:nth-child(2)', userData['email'])
+    await page.type('.login > .row > .small-12 > form > .radius:nth-child(2)', userData['publi24Username'])
     
-    await page.type('.login > .row > .small-12 > form > .radius:nth-child(3)', userData['parola'])
+    await page.type('.login > .row > .small-12 > form > .radius:nth-child(3)', userData['publi24Password'])
     
     await page.waitForSelector('.login > .row > .small-12 > form > .successbg')
     await page.click('.login > .row > .small-12 > form > .successbg')
@@ -56,7 +56,7 @@ let scrapePubli24 = async function(userData){
     await page.click('#save-article-form > #PlaceAdFormDetails #Price')
     await page.type('#save-article-form > #PlaceAdFormDetails #Price', userData['pret'])
   
-    
+    /*
     await page.waitForSelector('#save-article-form > #formContact #ContactName')
     await page.click('#save-article-form > #formContact #ContactName')
     
@@ -71,9 +71,11 @@ let scrapePubli24 = async function(userData){
     await page.waitForSelector('#eac-container-Location', {timeout: 5000});
     await page.keyboard.press('Enter');
   
-    
-    await page.waitForSelector('.promo > tbody > .activation > td > .select')
-    await page.click('.promo > tbody > .activation > td > .select')
+    */
+    await page.waitForSelector('#ProductsDetails > div > div:nth-child(8) > div.large-8.medium-6.columns > table > tbody > tr.activation.free > td:nth-child(1) > label')
+    //await page.click('.promo > tbody > .activation > td > .select')
+
+    await page.click('#ProductsDetails > div > div:nth-child(8) > div.large-8.medium-6.columns > table > tbody > tr.activation.free > td:nth-child(1) > label')
     
     await page.click('#save-article-btn');
     await browser.close();
