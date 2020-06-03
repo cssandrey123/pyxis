@@ -72,8 +72,28 @@ function salveazaAnunt() {
             publi24Password
         }));
     });
+    runBeforeRequest();
     httpRequest.then(response => {
         console.log(response);
-    });
-    
+        runAfterRequest();
+    });  
+}
+
+function runBeforeRequest(){
+    document.getElementById('before-post').style.display = "flex";
+    document.getElementById('after-post').style.display = "none";
+    document.getElementById('formWrapper').style.display = "none";;
+}
+
+function runAfterRequest(){
+    document.getElementById('before-post').style.display = "none";
+    document.getElementById('after-post').style.display = "block";
+    document.getElementById('formWrapper').style.display = "none";
+}
+
+function testFunction() {
+    setTimeout(()=> {
+        runAfterRequest();
+    },3000);
+    runBeforeRequest();
 }

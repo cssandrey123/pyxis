@@ -38,7 +38,7 @@ app.post('/html/post.html',async (req,res) => {
 app.post('/html/post.html/posteaza',async (req,res) => {
   req.on('data', async (reqBody) => {
     let olx=false;
-    let publi=false;
+    let publi24=false;
 
     if(JSON.parse(reqBody).olx) {
       // apelat puppeteer pt olx

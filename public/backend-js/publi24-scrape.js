@@ -5,7 +5,7 @@ let scrapePubli24 = async function(userData){
       return new Promise(resolve => setTimeout(resolve, ms));
     };
     const puppeteer = require('puppeteer');
-    const browser = await puppeteer.launch({headless: true, slowMo: 100, defaultViewport: null })
+    const browser = await puppeteer.launch({headless: false, slowMo: 100, defaultViewport: null })
     const page = await browser.newPage()
     
     const navigationPromise = page.waitForNavigation()

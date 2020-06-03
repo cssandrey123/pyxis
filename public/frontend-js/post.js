@@ -173,7 +173,6 @@ function clearInputs(){
 
     document.getElementById('register-succes-allert').style.display="none";
     document.getElementById('login-succes-allert').style.display="none";
-
 }
 
 

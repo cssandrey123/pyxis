@@ -136,9 +136,24 @@
                     </div>
                 </div>
             </div>
-            <button onclick="salveazaAnunt()" type="button" class="btn btn-primary">Submit</button>
+            <button onclick="salveazaAnunt()"  type="button" class="btn btn-primary">Submit</button>
+            
         </form>
     </div>
+    <div style="display: none;" id="before-post" class="spinner-wrapper">
+        <div class="text-center text-primary">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div style="display: none;" id="after-post" class="alert alert-success text-center" role="alert">
+            Ai postat anuntul cu succes!
+        </div>
+    </div>
+
 
      <!-- The core Firebase JS SDK is always required and must be listed first -->
      <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
